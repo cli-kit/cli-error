@@ -125,6 +125,14 @@ Reference to the `CliError` class.
 
 Map of error definitions.
 
+#### exit(err, trace, ...)
+
+Exit the program with a fatal error from an error definition.
+
+* `err`: The error definition.
+* `trace`: Whether to print the stack trace.
+* `...`: Message replacement parameters.
+
 #### file([options], callback)
 
 Load error definitions from a locale specific `JSON` document respecting the `LC` environment variables.
@@ -135,6 +143,14 @@ This method implements a merge stategy so that error messages are always availab
 * `callback`: A callback function.
 
 The callback signature is `function(err, file, errors, lang)`.
+
+#### warn(err, trace, ...)
+
+Print a warn message from an error definition.
+
+* `err`: The error definition.
+* `trace`: Whether to print the stack trace.
+* `...`: Message replacement parameters.
 
 ##### Options
 

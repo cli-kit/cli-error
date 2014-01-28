@@ -71,7 +71,7 @@ CliError.prototype.print = function(method, trace, parameters) {
  */
 CliError.prototype.printstack = function(method) {
   for(var i = 0;i < this.stacktrace.length;i++) {
-    method('%s %s', config.pad, this.stacktrace[i]);
+    method(config.pad + this.stacktrace[i]);
   }
 }
 
@@ -228,7 +228,7 @@ function raise(err) {
  */
 function warn(err, trace) {
   assert(err instanceof ErrorDefinition,
-    'argument to exit must be error definition');
+    'argument to warn must be error definition');
   var e = err.toError();
   // remove this method from the stack trace
   e.stacktrace.shift();

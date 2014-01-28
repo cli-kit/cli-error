@@ -4,6 +4,7 @@
  *  Example of creating and throwing an error instance and
  *  manually handling the exit status code.
  */
+require('ttycolor')().defaults();
 var clierr = require('..'), Error = clierr.error;
 var e = new Error('an error message', 128);
 process.on('uncaughtException', function(e) {
