@@ -26,6 +26,7 @@ var CliError = function(message, code, parameters) {
   // NOTE: remove constructor from stack trace
   stack.splice(1, 1);
   this.stack = stack.join('\n');
+  this.stacktrace = this.getStack();
 }
 
 util.inherits(CliError, Error);
@@ -81,6 +82,7 @@ CliError.prototype.error = function(trace) {
  *  Get an array of the stack trace.
  */
 CliError.prototype.getStack = function() {
+  if(this.stacktrace) return this.stacktrace;
   var lines = this.stack.split('\n'), i;
   lines.shift();
   for(i = 0;i < lines.length;i++) {
@@ -139,6 +141,7 @@ var ErrorDefinition = function(key, message, code, parameters) {
 ErrorDefinition.prototype.toError = function() {
   var err = new CliError(this.message, this.code, this.parameters);
   err.key = this.key;
+  err.stacktrace.shift();
   return err;
 }
 
