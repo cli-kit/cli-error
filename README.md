@@ -151,14 +151,6 @@ This method implements a merge stategy so that error messages are always availab
 
 The callback signature is `function(err, file, errors, lang)`.
 
-#### warn(err, trace, ...)
-
-Print a warn message from an error definition.
-
-* `err`: The error definition.
-* `trace`: Whether to print the stack trace.
-* `...`: Message replacement parameters.
-
 ##### Options
 
 * `lang`: Specify a language identifier, use this if you know the users
@@ -179,6 +171,15 @@ Load error definitions from a `source` object.
 * `...`: Message replacement parameters.
 
 Raise an error from an error definition. If there are no defined listeners for `uncaughtException` this method will print the formatted error message, using `console.error` and exit with the status code associated with the error instance. The stack trace is not printed to `stderr`.
+
+#### warn(err, trace, ...)
+
+Print a warn message from an error definition.
+
+* `err`: The error definition.
+* `trace`: Whether to print the stack trace.
+* `...`: Message replacement parameters.
+
 
 ### CliError
 
