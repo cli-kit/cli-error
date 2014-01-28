@@ -5,7 +5,11 @@
  *  based on the first language found in the LC_ environment variables.
  */
 require('ttycolor')().defaults();
-var clierr = require('..'), errors = clierr.errors;
-clierr.file(function(err, file, errors) {
-  console.log('loaded %s', file);
+var clierr = require('..'), errors = clierr.errors, raise = clierr.raise;
+clierr.file(function(err, file, errors, lang) {
+  //console.log('loaded %s', file);
+  if(process.argv.length > 2) {
+    raise(errors.EUNKNOWN_OPTION, process.argv[2]);
+  }
+  raise(errors.ENOOP);
 });

@@ -258,7 +258,7 @@ function file(options, callback) {
     throw e;
   }
   load(source);
-  callback(null, file, errors);
+  callback(null, file, errors, lang);
 }
 
 module.exports = function configure(conf) {
