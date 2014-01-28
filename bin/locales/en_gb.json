@@ -1,8 +1,10 @@
-{
-  "EUNKNOWN_OPTION": {
-    "message": "unknown option %s (gb)"
+[
+  {
+    "key": "EUNKNOWN_OPTION",
+    "message": "unknown option %s (en_gb)"
   },
-  "ENOOP": {
-    "message": "nothing to be done (gb)"
+  {
+    "key": "ENOOP",
+    "message": "nothing to be done (en_gb)"
   }
-}
+]

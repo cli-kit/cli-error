@@ -1,8 +1,10 @@
-{
-  "EUNKNOWN_OPTION": {
+[
+  {
+    "key": "EUNKNOWN_OPTION",
     "message": "unknown option %s"
   },
-  "ENOOP": {
+  {
+    "key": "ENOOP",
     "message": "nothing to be done"
   }
-}
+]

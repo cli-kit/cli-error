@@ -8,6 +8,7 @@ require('ttycolor')().defaults();
 var clierr = require('..'), errors = clierr.errors, raise = clierr.raise;
 clierr.file(function(err, file, errors, lang) {
   if(err) throw err;
+  //console.dir(errors);
   if(process.argv.length > 2) {
     raise(errors.EUNKNOWN_OPTION, process.argv[2]);
   }
