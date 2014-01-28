@@ -90,7 +90,7 @@ var clierr = require('..')({name: 'program'});
   `basename(process.argv[1])`.
 * `start`: A number indicating the start when auto-incrementing exit status
   codes, default `128`.
-* `prefix`: A prefix for messages used when printing erros using the `console`
+* `prefix`: A prefix for messages used when printing errors using the `console`
   methods. Maybe a boolean `true` to use `name` as the prefix (like standard
   error messages), a `string` or a `function` that returns a prefix.
 * `en`: Final fallback language identifer used when loading language files.
