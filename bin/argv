@@ -1,0 +1,17 @@
+#!/usr/bin/env node
+
+/**
+ *  Example of defining and raising errors.
+ */
+var basename = require('path').basename;
+require('ttycolor')().defaults();
+var clierr = require('..')({name: basename(process.argv[1])});
+var define = clierr.define,
+  raise = clierr.raise,
+  errors = clierr.errors,
+  exit = clierr.exit;
+define('EARGLENGTH', 'too few arguments');
+if(process.argv.length < 3) {
+  raise(errors.EARGLENGTH);
+}
+console.info('arg: %s', process.argv[2]);

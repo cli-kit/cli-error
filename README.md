@@ -13,8 +13,10 @@ This module is a set of helper functions and an error class designed to help cre
 
 ## Features
 
+* Seamless integration with [ttycolor][ttycolor]
 * Exit status codes associated with an `Error` instance
 * Message replacement parameters at definition or runtime
+* Auto-incrementing exit status codes
 
 ## Installation
 
@@ -28,6 +30,10 @@ npm install cli-error
 npm test
 ```
 
+## Examples
+
+The [bin](https://github.com/freeformsystems/cli-error/tree/master/bin) directory contains example programs.
+
 ## API
 
 ```javascript
@@ -37,5 +43,10 @@ var define = clierr.define, raise = clierr.raise, errors = clierr.errors;
 // and definition time replacement parameters
 define('EWARN', 'a %s message', ['warn']);
 define('EFATAL', 'a %s message', ['fatal']);
-raise(errors.EWARN);
+define('EARGLENGTH', 'too few arguments');
+if(process.argv.length < 3) {
+  raise(errors.EARGLENGTH);
+}
 ```
+
+[ttycolor]: https://github.com/freeformsystems/ttycolor

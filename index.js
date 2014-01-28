@@ -97,6 +97,7 @@ function define(key, message, parameters, code) {
   var start = typeof config.start == 'number' ? config.start : 128;
   if(!code) code = Object.keys(errors).length + start;
   var err = new CliError(message, code, parameters);
+  err.key = key;
   errors[key] = err;
   return err;
 }
@@ -104,23 +105,42 @@ function define(key, message, parameters, code) {
 /**
  *  Raise an error by key.
  *
- *  @param key The error key.
+ *  @param err The error instance.
  */
-function raise(key) {
+function raise(err) {
   var parameters = [].slice.call(arguments, 1);
-  assert(errors[key] instanceof CliError, 'error ' + key + ' is not defined');
+  assert(err instanceof CliError, 'argument to raise must be cli error');
   // TODO: allow parameters in raise
   if(parameters.length) {
 
   }
-  throw errors[key];
+  var listeners = process.listeners('uncaughtException');
+  if(!listeners.length) {
+    process.on('uncaughtException', function(err) {
+      console.error(err.toString());
+      err.exit();
+    });
+  }
+  throw err;
 }
 
-module.exports = function(conf) {
+/**
+ *  Exit the program with an error instance.
+ *
+ *  @param err The error instance.
+ */
+function exit(err) {
+  assert(err instanceof CliError, 'argument to exit must be cli error');
+  err.exit();
+}
+
+module.exports = function configure(conf) {
   config = conf;
+  return module.exports;
 }
 
 module.exports.error = CliError;
 module.exports.errors = errors;
 module.exports.define = define;
 module.exports.raise = raise;
+module.exports.exit = exit;
