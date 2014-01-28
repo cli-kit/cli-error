@@ -2,7 +2,8 @@ var assert = require('assert');
 var util = require('util');
 var config = {
   name: 'CliError',
-  start: 128
+  start: 128,
+  prefix: true
 }
 
 /**
@@ -41,6 +42,13 @@ util.inherits(CliError, Error);
  */
 CliError.prototype.print = function(method, trace, parameters) {
   var msg = this.message;
+  if(config.prefix === true) {
+    msg = this.name + ': ' + msg;
+  }else if(typeof prefix == 'string') {
+    msg = prefix + msg;
+  }else if(typeof prefix == 'function') {
+    msg = prefix() + msg;
+  }
   parameters = parameters.length ? parameters : this.parameters;
   parameters.unshift(msg);
   method.apply(console, parameters);
@@ -103,21 +111,20 @@ function define(key, message, parameters, code) {
 }
 
 /**
- *  Raise an error by key.
+ *  Raise an error.
  *
  *  @param err The error instance.
+ *  @param ... Message replacement parameters.
  */
 function raise(err) {
   var parameters = [].slice.call(arguments, 1);
   assert(err instanceof CliError, 'argument to raise must be cli error');
-  // TODO: allow parameters in raise
-  if(parameters.length) {
-
-  }
   var listeners = process.listeners('uncaughtException');
   if(!listeners.length) {
     process.on('uncaughtException', function(err) {
-      console.error(err.toString());
+      //console.error(err.toString.apply(err, parameters));
+      parameters.unshift(false);
+      err.error.apply(err, parameters);
       err.exit();
     });
   }
@@ -135,7 +142,9 @@ function exit(err) {
 }
 
 module.exports = function configure(conf) {
-  config = conf;
+  for(var z in conf) {
+    config[z] = conf[z];
+  }
   return module.exports;
 }
 

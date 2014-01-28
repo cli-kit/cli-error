@@ -1,0 +1,17 @@
+#!/usr/bin/env node
+
+/**
+ *  Example of replacement parameters at definition time and runtime.
+ */
+var basename = require('path').basename;
+require('ttycolor')().defaults();
+var clierr = require('..')({name: basename(process.argv[1])});
+var define = clierr.define,
+  raise = clierr.raise,
+  errors = clierr.errors,
+  exit = clierr.exit;
+var err = define('ENOTFOUND', 'file %s not found', ['unknown'], 128);
+raise(err, ['file.txt']);
+//err.warn();
+//err.error(false, 'file.txt');
+//err.exit();

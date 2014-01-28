@@ -76,6 +76,22 @@ err.exit();
 
 ## API
 
+### Configuration
+
+Configure the options for the module by passing an object when requiring the
+module:
+
+```javascript
+var clierr = require('..')({name: basename(process.argv[1])});
+```
+
+* `name`: The name for the error instances, default is `CliError`.
+* `start`: A number indicating the start when auto-incrementing exit status
+  codes, default `128`.
+* `prefix`: A prefix for messages used when printing erros using the `console`
+  methods. Maybe a boolean `true` to use `name` as the prefix (like standard
+  error messages), a `string` or a `function` that returns a prefix.
+
 ### Module
 
 #### define(key, message, [parameters], [code])
@@ -94,5 +110,12 @@ Reference to the `CliError` class.
 #### errors
 
 Map of defined error instances.
+
+#### raise(err, ...)
+
+* `err`: A `CliError` instance.
+* `...`: Message replacement parameters.
+
+Raise an error. If there are no defined listeners for `uncaughtException` this method will print the formatted error message, using `console.error` and exit with the status code associated with the error instance. The stack trace is not printed to `stderr`.
 
 [ttycolor]: https://github.com/freeformsystems/ttycolor

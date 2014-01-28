@@ -13,7 +13,6 @@ assert(warn.message == 'a %s message', 'error message is wrong');
 assert(warn.code == 128, 'warn error code is wrong');
 assert(warn.parameters.length == 1, 'warn parameters length is wrong');
 
-
 assert(fatal.code == 129, 'fatal error code is wrong');
 
 assert(Object.keys(errors).length == 2, 'wrong number of errors');
