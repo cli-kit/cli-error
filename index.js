@@ -1,7 +1,8 @@
 var assert = require('assert');
 var util = require('util');
 var config = {
-  name: 'CliError'
+  name: 'CliError',
+  start: 128
 }
 
 /**
@@ -93,7 +94,8 @@ function define(key, message, parameters, code) {
     code = parameters;
     parameters = null;
   }
-  if(!code) code = Object.keys(errors).length + 128;
+  var start = typeof config.start == 'number' ? config.start : 128;
+  if(!code) code = Object.keys(errors).length + start;
   var err = new CliError(message, code, parameters);
   errors[key] = err;
   return err;
