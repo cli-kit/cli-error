@@ -38,7 +38,11 @@ The [bin](https://github.com/freeformsystems/cli-error/tree/master/bin) director
 
 ### Definition
 
-Defining and raising errors manually:
+Use `define` and `raise` to use auto-incrementing exit status codes and reference errors by identifier, adapted from the [argv](https://github.com/freeformsystems/cli-error/blob/master/bin/argv) example executable.
+
+```
+./bin/argv; echo $?;
+```
 
 ```javascript
 var clierr = require('cli-error');
@@ -52,6 +56,10 @@ if(process.argv.length < 3) {
 ### Manual
 
 If you prefer you can create errors as needed, adapted from the [manual](https://github.com/freeformsystems/cli-error/tree/master/bin/manual) example executable.
+
+```
+./bin/manual; echo $?;
+```
 
 ```javascript
 var clierr = require('cli-error'), Error = clierr.error;
