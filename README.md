@@ -93,6 +93,10 @@ var clierr = require('..')({name: 'program'});
 * `prefix`: A prefix for messages used when printing erros using the `console`
   methods. Maybe a boolean `true` to use `name` as the prefix (like standard
   error messages), a `string` or a `function` that returns a prefix.
+* `en`: Final fallback language identifer used when loading language files.
+* `locales`: Directory containing the locale specific error definition files,
+  default if a 'locales' directory relative to the directory containing the
+  executable.
 
 ### Module
 
