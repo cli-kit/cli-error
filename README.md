@@ -126,4 +126,32 @@ Map of defined error instances.
 
 Raise an error from an error definition. If there are no defined listeners for `uncaughtException` this method will print the formatted error message, using `console.error` and exit with the status code associated with the error instance. The stack trace is not printed to `stderr`.
 
+### CliError
+
+An `Error` subclass.
+
+### ErrorDefinition
+
+An error definfition is used to reference an error by identifier (key).
+
+#### code
+
+The exit status code.
+
+#### key
+
+The key used to identify the error.
+
+#### message
+
+The error message.
+
+#### parameters
+
+Array of message replacement parameters.
+
+#### toError()
+
+Convert an error definition to an Error.
+
 [ttycolor]: https://github.com/freeformsystems/ttycolor
