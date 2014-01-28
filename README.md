@@ -97,6 +97,8 @@ var clierr = require('..')({name: 'program'});
 * `locales`: Directory containing the locale specific error definition files,
   default if a 'locales' directory relative to the directory containing the
   executable.
+* `lc`: Array of environment variable names to test first before finding the
+  first `LC` variable when loading language definitions. Default is `['LC_ALL', 'LC_MESSAGES']`.
 
 ### Module
 

@@ -6,7 +6,8 @@ var config = {
   start: 128,
   prefix: true,
   lang: 'en',
-  locales: path.join(path.normalize(dirname(process.argv[1])), 'locales')
+  locales: path.join(path.normalize(dirname(process.argv[1])), 'locales'),
+  lc: ['LC_ALL', 'LC_MESSAGES']
 }
 
 /**
@@ -223,29 +224,47 @@ function load(source) {
   }
 }
 
+/**
+ *  Load error definitions from a file.
+ */
 function file(options, callback) {
   if(typeof options == 'function') {
     callback = options;
     options = {};
   }
+
+  // convert an LC environment variable to
+  // the file loading convention
   function replace(lang) {
     return lang.replace(/\..*$/, '').toLowerCase();
   }
-  var fallback = options.fallback || config.lang;
-  var lang = options.lang;
-  var locales = options.locales || config.locales;
-  var extension = 'json', file, source;
-  if(!lang) {
-    lang = replace(process.env.LC_MESSAGES || '');
+
+  // find first available LC variable in process.env
+  // checking config.lc defined list first
+  function find() {
+    var lang, search = config.lc || [], i, k, v, re = /^LC_/;
+    for(i = 0;i < search.length;i++) {
+      lang = replace(process.env[process.env[search[i]]] || '');
+      if(lang) return lang;
+    }
+    // nothing found in search array, find first available
     if(!lang) {
-      var re = /^LC_/, v;
-      for(var k in process.env) {
+      for(k in process.env) {
         v = process.env[k];
         if(re.test(k) && v) {
           lang = replace(v);
         }
       }
     }
+    return lang;
+  }
+
+  var fallback = options.fallback || config.lang;
+  var lang = options.lang;
+  var locales = options.locales || config.locales;
+  var extension = 'json', file, source;
+  if(!lang) {
+    lang = find();
   }
 
   // always load fallback definitions
@@ -257,13 +276,18 @@ function file(options, callback) {
     return callback(e);
   }
 
-  // override with language file
-  file = path.join(locales, lang) + '.' + extension;
-  try {
-    source = require(file);
-    load(source);
-  }catch(e) {
-    return callback(e);
+  // only attempt to load if lang has been specified
+  // or if we found a lang in the LC variables
+  if(lang) {
+    // TODO: test file exists
+    file = path.join(locales, lang) + '.' + extension;
+    try {
+      source = require(file);
+      load(source);
+    }catch(e) {
+      return callback(e);
+    }
+    return callback(null, file, errors, lang);
   }
   callback(null, file, errors, lang);
 }
