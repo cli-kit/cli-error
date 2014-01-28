@@ -6,9 +6,11 @@ var config = {
   start: 128,
   prefix: true,
   lang: 'en',
+  pad: '  ',
   locales: path.join(path.normalize(dirname(process.argv[1])), 'locales'),
   lc: ['LC_ALL', 'LC_MESSAGES']
 }
+var errors = {};
 
 /**
  *  An error class with support for message parameter
@@ -61,6 +63,20 @@ CliError.prototype.print = function(method, trace, parameters) {
 }
 
 /**
+ *  Print the stack strace.
+ *
+ *  @api private
+ *
+ *  @param method The console method to invoke.
+ */
+CliError.prototype.printstack = function(method) {
+  for(var i = 0;i < this.stacktrace.length;i++) {
+    method('%s %s', config.pad, this.stacktrace[i]);
+  }
+}
+
+
+/**
  *  Print a warning message from the contents
  *  of this error.
  *
@@ -69,6 +85,9 @@ CliError.prototype.print = function(method, trace, parameters) {
  */
 CliError.prototype.warn = function(trace) {
   this.print(console.warn, trace, [].slice.call(arguments, 1));
+  if(trace) {
+    this.printstack(console.warn);
+  }
 }
 
 /**
@@ -80,6 +99,9 @@ CliError.prototype.warn = function(trace) {
  */
 CliError.prototype.error = function(trace) {
   this.print(console.error, trace, [].slice.call(arguments, 1));
+  if(trace) {
+    this.printstack(console.error);
+  }
 }
 
 /**
@@ -88,6 +110,7 @@ CliError.prototype.error = function(trace) {
 CliError.prototype.getStack = function() {
   if(this.stacktrace) return this.stacktrace;
   var lines = this.stack.split('\n'), i;
+  // remove CliError constructor
   lines.shift();
   for(i = 0;i < lines.length;i++) {
     lines[i] = lines[i].trim();
@@ -132,8 +155,6 @@ CliError.prototype.stringify = function(trace) {
 CliError.prototype.exit = function() {
   process.exit(this.code);
 }
-
-var errors = {};
 
 var ErrorDefinition = function(key, message, code, parameters) {
   this.key = key;
@@ -189,25 +210,51 @@ function raise(err) {
   var e = err.toError();
   var listeners = process.listeners('uncaughtException');
   if(!listeners.length) {
-    process.on('uncaughtException', function(err) {
-      //console.error(err.toString.apply(err, parameters));
+    process.on('uncaughtException', function(e) {
       parameters.unshift(false);
-      err.error.apply(err, parameters);
-      err.exit();
+      e.error.apply(e, parameters);
+      e.exit();
     });
   }
   throw e;
 }
 
 /**
- *  Exit the program with an error definition.
+ *  Print a warning from an error definition.
  *
  *  @param err The error definition.
+ *  @param trace Whether to include the stack trace.
+ *  @param ... Message replacement parameters.
  */
-function exit(err) {
+function warn(err, trace) {
   assert(err instanceof ErrorDefinition,
     'argument to exit must be error definition');
   var e = err.toError();
+  // remove this method from the stack trace
+  e.stacktrace.shift();
+  var parameters = [].slice.call(arguments, 2);
+  parameters.unshift(trace);
+  e.warn.apply(e, parameters);
+  return e;
+}
+
+
+/**
+ *  Exit the program from an error definition.
+ *
+ *  @param err The error definition.
+ *  @param trace Whether to include the stack trace.
+ *  @param ... Message replacement parameters.
+ */
+function exit(err, trace) {
+  assert(err instanceof ErrorDefinition,
+    'argument to exit must be error definition');
+  var e = err.toError();
+  // remove this method from the stack trace
+  e.stacktrace.shift();
+  var parameters = [].slice.call(arguments, 2);
+  parameters.unshift(trace);
+  e.error.apply(e, parameters);
   e.exit();
 }
 
@@ -299,11 +346,12 @@ module.exports = function configure(conf) {
   return module.exports;
 }
 
-module.exports.error = CliError;
-module.exports.definition = ErrorDefinition;
-module.exports.errors = errors;
 module.exports.define = define;
-module.exports.raise = raise;
+module.exports.definition = ErrorDefinition;
+module.exports.error = CliError;
+module.exports.errors = errors;
 module.exports.exit = exit;
-module.exports.load = load;
 module.exports.file = file;
+module.exports.load = load;
+module.exports.raise = raise;
+module.exports.warn = warn;

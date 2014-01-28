@@ -104,7 +104,7 @@ var clierr = require('..')({name: 'program'});
 
 #### define(key, message, [parameters], [code])
 
-Define an error instance by named key.
+Define an error by named key.
 
 * `key`: The error key.
 * `message`: The error message.
@@ -113,13 +113,17 @@ Define an error instance by named key.
 
 Returns an `ErrorDefinition` instance.
 
+#### definition
+
+Reference to the `ErrorDefinition` class.
+
 #### error
 
 Reference to the `CliError` class.
 
 #### errors
 
-Map of defined error instances.
+Map of error definitions.
 
 #### file([options], callback)
 
@@ -179,6 +183,6 @@ Array of message replacement parameters.
 
 #### toError()
 
-Convert an error definition to an Error.
+Convert an error definition to an `Error`.
 
 [ttycolor]: https://github.com/freeformsystems/ttycolor

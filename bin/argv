@@ -10,7 +10,7 @@ var define = clierr.define,
   errors = clierr.errors,
   exit = clierr.exit;
 var err = define('EARGLENGTH', 'too few arguments');
-console.dir(err.toError().stringify(true));
+//console.dir(err.toError().stringify(true));
 if(process.argv.length < 3) {
   raise(errors.EARGLENGTH);
 }

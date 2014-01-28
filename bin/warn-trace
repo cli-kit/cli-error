@@ -1,0 +1,12 @@
+#!/usr/bin/env node
+
+/**
+ *  Example of using the exit function with an error definition
+ *  and including a stack trace.
+ */
+require('ttycolor')().defaults();
+var clierr = require('..');
+var define = clierr.define, errors = clierr.errors, warn = clierr.warn;
+define('EARGLENGTH', 'not enough arguments %s');
+var e = warn(errors.EARGLENGTH, true, process.argv.join(' '));
+e.exit();

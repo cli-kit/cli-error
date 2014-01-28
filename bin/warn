@@ -1,0 +1,13 @@
+#!/usr/bin/env node
+
+/**
+ *  Example of using the warn function with an error definition.
+ */
+require('ttycolor')().defaults();
+var clierr = require('..');
+var define = clierr.define,
+  errors = clierr.errors,
+  warn = clierr.warn;
+define('EARGLENGTH', 'not enough arguments %s');
+var e = warn(errors.EARGLENGTH, false, process.argv.join(' '));
+e.exit();
