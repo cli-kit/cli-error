@@ -97,7 +97,7 @@ CliError.prototype.getStack = function() {
  *  @param trace Whether to include the stack trace.
  *  @param ... Message replacement parameters.
  */
-CliError.prototype.json = function(trace) {
+CliError.prototype.stringify = function(trace) {
   var o = {};
   var stack = this.getStack();
   var msg = this.message;
