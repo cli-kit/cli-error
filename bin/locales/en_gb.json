@@ -1,8 +1,8 @@
 {
   "EUNKNOWN_OPTION": {
-    "message": "unknown option %s"
+    "message": "unknown option %s (gb)"
   },
   "ENOOP": {
-    "message": "nothing to be done"
+    "message": "nothing to be done (gb)"
   }
 }

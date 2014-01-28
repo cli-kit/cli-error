@@ -165,10 +165,11 @@ function define(key, message, parameters, code) {
     parameters = null;
   }
   var start = typeof config.start == 'number' ? config.start : 128;
+  if(!code && errors[key] && errors[key].code) {
+    code = errors[key].code;
+  }
   if(!code) code = Object.keys(errors).length + start;
-  //var err = {message: message, key: key, code: code, parameters: parameters};
-  //var err = new CliError(message, code, parameters);
-  //err.key = key;
+  // re-use error code if overwriting
   var err = new ErrorDefinition(key, message, code, parameters);
   errors[key] = err;
   return err;
@@ -233,7 +234,7 @@ function file(options, callback) {
   var fallback = options.fallback || config.lang;
   var lang = options.lang;
   var locales = options.locales || config.locales;
-  var extension = 'json';
+  var extension = 'json', file, source;
   if(!lang) {
     lang = replace(process.env.LC_MESSAGES || '');
     if(!lang) {
@@ -246,22 +247,24 @@ function file(options, callback) {
       }
     }
   }
-  if(!lang) {
-    lang = fallback;
+
+  // always load fallback definitions
+  try {
+    file = path.join(locales, fallback) + '.' + extension;
+    source = require(file);
+    load(source);
+  }catch(e) {
+    return callback(e);
   }
-  var file = path.join(locales, lang) + '.' + extension;
-  var source;
+
+  // override with language file
+  file = path.join(locales, lang) + '.' + extension;
   try {
     source = require(file);
+    load(source);
   }catch(e) {
-    try {
-      file = path.join(locales, fallback) + '.' + extension;
-      source = require(file);
-    }catch(e) {
-      return callback(e);
-    }
+    return callback(e);
   }
-  load(source);
   callback(null, file, errors, lang);
 }
 
