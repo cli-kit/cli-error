@@ -1,0 +1,19 @@
+{
+  "name": "cli-error",
+  "version": "0.0.1",
+  "description": "Error class for command line interfaces",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/freeformsystems/cli-error"
+  },
+  "bugs": {
+    "url": "https://github.com/freeformsystems/cli-error/issues"
+  },
+  "keywords": [
+    "cli",
+    "error",
+    "exit"
+  ],
+  "author": "muji <noop@xpm.io>",
+  "license": "MIT"
+}
