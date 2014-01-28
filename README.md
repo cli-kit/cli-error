@@ -82,10 +82,11 @@ Configure the options for the module by passing an object when requiring the
 module:
 
 ```javascript
-var clierr = require('..')({name: basename(process.argv[1])});
+var clierr = require('..')({name: 'program'});
 ```
 
-* `name`: The name for the error instances, default is `CliError`.
+* `name`: The name for the error instances, default is
+  `basename(process.argv[1])`.
 * `start`: A number indicating the start when auto-incrementing exit status
   codes, default `128`.
 * `prefix`: A prefix for messages used when printing erros using the `console`
@@ -102,6 +103,8 @@ Define an error instance by named key.
 * `message`: The error message.
 * `parameters`: Array of message replacement parameters (optional).
 * `code`: Specific exit status code for the error (optional).
+
+Returns an `ErrorDefinition` instance.
 
 #### error
 

@@ -1,7 +1,8 @@
 var assert = require('assert');
+var path = require('path'), basename = path.basename;
 var util = require('util');
 var config = {
-  name: 'CliError',
+  name: basename(process.argv[1]),
   start: 128,
   prefix: true
 }
@@ -214,6 +215,7 @@ module.exports = function configure(conf) {
 }
 
 module.exports.error = CliError;
+module.exports.definition = ErrorDefinition;
 module.exports.errors = errors;
 module.exports.define = define;
 module.exports.raise = raise;

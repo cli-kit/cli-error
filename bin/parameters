@@ -3,9 +3,8 @@
 /**
  *  Example of replacement parameters at definition time and runtime.
  */
-var basename = require('path').basename;
 require('ttycolor')().defaults();
-var clierr = require('..')({name: basename(process.argv[1])});
+var clierr = require('..');
 var define = clierr.define,
   raise = clierr.raise,
   errors = clierr.errors,
