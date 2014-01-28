@@ -160,6 +160,7 @@ The callback signature is `function(err, file, errors, lang)`.
 * `fallback`: Fallback language identifier, overrides `config.lang`.
 * `locales`: Directory containing error definition files, overrides
   `config.locales`.
+* `lc`: Array of environment variable names, overrides `config.lc`.
 
 #### load(source)
 
@@ -179,7 +180,6 @@ Print a warn message from an error definition.
 * `err`: The error definition.
 * `trace`: Whether to print the stack trace.
 * `...`: Message replacement parameters.
-
 
 ### CliError
 
