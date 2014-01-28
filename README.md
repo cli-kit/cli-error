@@ -1,5 +1,9 @@
 # Command Line Error
 
+Unified error handling for command line interfaces.
+
+## About
+
 Most command line programs under-utilize the ability to use multiple non-zero
 exit codes to indicate the type of error encountered, typically most programs
 exit with an exit status of `1` which gives no indication of what type of
