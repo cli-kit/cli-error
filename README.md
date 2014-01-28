@@ -30,10 +30,12 @@ npm test
 
 ## API
 
-```
+```javascript
 var clierr = require('cli-error');
+var define = clierr.define, raise = clierr.raise, errors = clierr.errors;
 // define some errors with incrementing exit codes
 // and definition time replacement parameters
 define('EWARN', 'a %s message', ['warn']);
 define('EFATAL', 'a %s message', ['fatal']);
+raise(errors.EWARN);
 ```
