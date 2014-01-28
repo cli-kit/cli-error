@@ -121,6 +121,31 @@ Reference to the `CliError` class.
 
 Map of defined error instances.
 
+#### file([options], callback)
+
+Load error definitions from a locale specific `JSON` document respecting the `LC` environment variables.
+
+This method implements a merge stategy so that error messages are always available , unless the configuration property `lang` has been changed and `options.fallback` has not been specified then the fallback file path will be `locales/en.json` relative to the directory containing the executable.
+
+* `options`: An object containing file load options.
+* `callback`: A callback function.
+
+The callback signature is `function(err, file, errors, lang)`.
+
+##### Options
+
+* `lang`: Specify a language identifier, use this if you know the users
+  language ahead of time (for example, your application provides a
+  configuration option for the locale). If `lang` is specified the `LC`
+  environment variables are not searched.
+* `fallback`: Fallback language identifier, overrides `config.lang`.
+* `locales`: Directory containing error definition files, overrides
+  `config.locales`.
+
+#### load(source)
+
+Load error definitions from a `source` object.
+
 #### raise(err, ...)
 
 * `err`: A `CliError` instance.
