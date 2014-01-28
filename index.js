@@ -230,8 +230,10 @@ function file(options, callback) {
   function replace(lang) {
     return lang.replace(/\..*$/, '').toLowerCase();
   }
+  var fallback = options.fallback || config.lang;
   var lang = options.lang;
-  var base = config.locales;
+  var locales = options.locales || config.locales;
+  var extension = 'json';
   if(!lang) {
     lang = replace(process.env.LC_MESSAGES || '');
     if(!lang) {
@@ -245,17 +247,19 @@ function file(options, callback) {
     }
   }
   if(!lang) {
-    lang = options.fallback || config.lang;
+    lang = fallback;
   }
-  var locales = options.locales || config.locales;
-  var file = path.join(locales, lang) + '.json';
-  //console.dir(file);
+  var file = path.join(locales, lang) + '.' + extension;
   var source;
   try {
     source = require(file);
   }catch(e) {
-    // TODO: load fallback
-    throw e;
+    try {
+      file = path.join(locales, fallback) + '.' + extension;
+      source = require(file);
+    }catch(e) {
+      return callback(e);
+    }
   }
   load(source);
   callback(null, file, errors, lang);
