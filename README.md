@@ -208,4 +208,8 @@ Array of message replacement parameters.
 
 Convert an error definition to an `Error`.
 
+## License
+
+Everything is [MIT](http://en.wikipedia.org/wiki/MIT_License). Read the [license](/LICENSE) if you feel inclined.
+
 [ttycolor]: https://github.com/freeformsystems/ttycolor
