@@ -1,10 +1,12 @@
 var assert = require('assert');
-var path = require('path'), basename = path.basename;
+var path = require('path'), basename = path.basename, dirname = path.dirname;
 var util = require('util');
 var config = {
   name: basename(process.argv[1]),
   start: 128,
-  prefix: true
+  prefix: true,
+  lang: 'en',
+  locales: path.join(path.normalize(dirname(process.argv[1])), 'locales')
 }
 
 /**
@@ -207,6 +209,58 @@ function exit(err) {
   e.exit();
 }
 
+/**
+ *  Import definitions from an object.
+ *
+ *  @param source An object defining error messages.
+ */
+function load(source) {
+  var k, v;
+  for(k in source) {
+    v = source[k];
+    define(k, v.message, v.parameters, v.code);
+  }
+}
+
+function file(options, callback) {
+  if(typeof options == 'function') {
+    callback = options;
+    options = {};
+  }
+  function replace(lang) {
+    return lang.replace(/\..*$/, '').toLowerCase();
+  }
+  var lang = options.lang;
+  var base = config.locales;
+  if(!lang) {
+    lang = replace(process.env.LC_MESSAGES || '');
+    if(!lang) {
+      var re = /^LC_/, v;
+      for(var k in process.env) {
+        v = process.env[k];
+        if(re.test(k) && v) {
+          lang = replace(v);
+        }
+      }
+    }
+  }
+  if(!lang) {
+    lang = options.fallback || config.lang;
+  }
+  var locales = options.locales || config.locales;
+  var file = path.join(locales, lang) + '.json';
+  //console.dir(file);
+  var source;
+  try {
+    source = require(file);
+  }catch(e) {
+    // TODO: load fallback
+    throw e;
+  }
+  load(source);
+  callback(null, file, errors);
+}
+
 module.exports = function configure(conf) {
   for(var z in conf) {
     config[z] = conf[z];
@@ -220,3 +274,5 @@ module.exports.errors = errors;
 module.exports.define = define;
 module.exports.raise = raise;
 module.exports.exit = exit;
+module.exports.load = load;
+module.exports.file = file;

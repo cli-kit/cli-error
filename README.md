@@ -119,6 +119,6 @@ Map of defined error instances.
 * `err`: A `CliError` instance.
 * `...`: Message replacement parameters.
 
-Raise an error. If there are no defined listeners for `uncaughtException` this method will print the formatted error message, using `console.error` and exit with the status code associated with the error instance. The stack trace is not printed to `stderr`.
+Raise an error from an error definition. If there are no defined listeners for `uncaughtException` this method will print the formatted error message, using `console.error` and exit with the status code associated with the error instance. The stack trace is not printed to `stderr`.
 
 [ttycolor]: https://github.com/freeformsystems/ttycolor

@@ -1,0 +1,11 @@
+#!/usr/bin/env node
+
+/**
+ *  Example of loading error definitions from a JSON file
+ *  based on the first language found in the LC_ environment variables.
+ */
+require('ttycolor')().defaults();
+var clierr = require('..'), errors = clierr.errors;
+clierr.file(function(err, file, errors) {
+  console.log('loaded %s', file);
+});
