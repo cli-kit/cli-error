@@ -18,6 +18,7 @@ var file = require('./lib/file')(config).file;
 var define = require('./lib/define')(config).define;
 var load = require('./lib/load');
 var errors = require('./lib/define').errors;
+var lc = require('cli-locale');
 
 /**
  *  Raise an error.
@@ -84,6 +85,7 @@ module.exports = function configure(conf) {
   for(var z in conf) {
     config[z] = conf[z];
   }
+  lc.language = config.lang;
   return module.exports;
 }
 

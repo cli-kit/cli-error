@@ -19,6 +19,9 @@
     "error",
     "exit"
   ],
+  "dependencies": {
+    "cli-locale": "~0.0.1"
+  },
   "devDependencies": {
     "ttycolor": "~0.7.5"
   },
