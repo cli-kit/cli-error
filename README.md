@@ -21,6 +21,7 @@ This module is a set of helper functions and an error class designed to help cre
 * Exit status codes associated with an `Error` instance
 * Message replacement parameters at definition or runtime
 * Auto-incrementing exit status codes
+* Load error definitions from locale aware json documents
 
 ## Installation
 
