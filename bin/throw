@@ -1,0 +1,15 @@
+#!/usr/bin/env node
+
+/**
+ *  Example of creating and throwing an error instance and
+ *  manually handling the exit status code.
+ */
+var basename = require('path').basename;
+var clierr = require('..')({name: basename(process.argv[1])});
+var Error = clierr.error;
+var e = new Error('an error message', 128);
+process.on('uncaughtException', function(e) {
+  console.error(e.stack);
+  process.exit(e.code);
+})
+throw e;

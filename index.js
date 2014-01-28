@@ -20,6 +20,7 @@ var CliError = function(message, code, parameters) {
   this.message = message;
   this.code = code || 1;
   this.parameters = parameters || [];
+  //console.dir(Error.prepareStackTrace());
   Error.captureStackTrace(this);
   var stack = this.stack.split('\n');
   // NOTE: remove constructor from stack trace
@@ -77,6 +78,48 @@ CliError.prototype.error = function(trace) {
 }
 
 /**
+ *  Get an array of the stack trace.
+ */
+CliError.prototype.getStack = function() {
+  var lines = this.stack.split('\n'), i;
+  lines.shift();
+  for(i = 0;i < lines.length;i++) {
+    lines[i] = lines[i].trim();
+  }
+  return lines;
+}
+
+/**
+ *  Retrieve an object suitable for JSON serialization.
+ *
+ *  @param trace Whether to include the stack trace.
+ *  @param ... Message replacement parameters.
+ */
+CliError.prototype.json = function(trace) {
+  var o = {};
+  var stack = this.getStack();
+  var msg = this.message;
+  var parameters = [].slice.call(arguments, 1);
+  if(!parameters.length && this.parameters.length) {
+    parameters = this.parameters;
+  }
+  if(parameters.length) {
+    parameters.unshift(msg);
+    msg = util.format.apply(util, parameters);
+  }
+  o.message = msg;
+  o.name = this.name;
+  o.code = this.code;
+  if(this.key) {
+    o.key = this.key;
+  }
+  if(trace) {
+    o.stack = stack;
+  }
+  return o;
+}
+
+/**
  *  Exit the process with the status code
  *  associated with this error.
  */
@@ -85,6 +128,19 @@ CliError.prototype.exit = function() {
 }
 
 var errors = {};
+
+var ErrorDefinition = function(key, message, code, parameters) {
+  this.key = key;
+  this.message = message;
+  this.code = code;
+  this.parameters = parameters;
+}
+
+ErrorDefinition.prototype.toError = function() {
+  var err = new CliError(this.message, this.code, this.parameters);
+  err.key = this.key;
+  return err;
+}
 
 /**
  *  Define an error for the program.
@@ -104,8 +160,10 @@ function define(key, message, parameters, code) {
   }
   var start = typeof config.start == 'number' ? config.start : 128;
   if(!code) code = Object.keys(errors).length + start;
-  var err = new CliError(message, code, parameters);
-  err.key = key;
+  //var err = {message: message, key: key, code: code, parameters: parameters};
+  //var err = new CliError(message, code, parameters);
+  //err.key = key;
+  var err = new ErrorDefinition(key, message, code, parameters);
   errors[key] = err;
   return err;
 }
@@ -113,12 +171,14 @@ function define(key, message, parameters, code) {
 /**
  *  Raise an error.
  *
- *  @param err The error instance.
+ *  @param err The error definition.
  *  @param ... Message replacement parameters.
  */
 function raise(err) {
   var parameters = [].slice.call(arguments, 1);
-  assert(err instanceof CliError, 'argument to raise must be cli error');
+  assert(err instanceof ErrorDefinition,
+    'argument to raise must be error definition');
+  var e = err.toError();
   var listeners = process.listeners('uncaughtException');
   if(!listeners.length) {
     process.on('uncaughtException', function(err) {
@@ -128,17 +188,19 @@ function raise(err) {
       err.exit();
     });
   }
-  throw err;
+  throw e;
 }
 
 /**
- *  Exit the program with an error instance.
+ *  Exit the program with an error definition.
  *
- *  @param err The error instance.
+ *  @param err The error definition.
  */
 function exit(err) {
-  assert(err instanceof CliError, 'argument to exit must be cli error');
-  err.exit();
+  assert(err instanceof ErrorDefinition,
+    'argument to exit must be error definition');
+  var e = err.toError();
+  e.exit();
 }
 
 module.exports = function configure(conf) {
