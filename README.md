@@ -34,19 +34,53 @@ npm test
 
 The [bin](https://github.com/freeformsystems/cli-error/tree/master/bin) directory contains example programs.
 
-## API
+## Usage
+
+### Definition
+
+Defining and raising errors manually:
 
 ```javascript
 var clierr = require('cli-error');
 var define = clierr.define, raise = clierr.raise, errors = clierr.errors;
-// define some errors with incrementing exit codes
-// and definition time replacement parameters
-define('EWARN', 'a %s message', ['warn']);
-define('EFATAL', 'a %s message', ['fatal']);
 define('EARGLENGTH', 'too few arguments');
 if(process.argv.length < 3) {
   raise(errors.EARGLENGTH);
 }
 ```
+
+### Manual
+
+If you prefer you can create errors as needed, adapted from the [manual](https://github.com/freeformsystems/cli-error/tree/master/bin/manual) example executable.
+
+```javascript
+var clierr = require('cli-error'), Error = clierr.error;
+var err = new Error('fatal: %s not found', 128, ['file.json']);
+// print formatted message to stderr
+err.error();
+// use the error exit status code 
+err.exit();
+```
+
+## API
+
+### Module
+
+#### define(key, message, [parameters], [code])
+
+Define an error instance by named key.
+
+* `key`: The error key.
+* `message`: The error message.
+* `parameters`: Array of message replacement parameters (optional).
+* `code`: Specific exit status code for the error (optional).
+
+#### error
+
+Reference to the `CliError` class.
+
+#### errors
+
+Map of defined error instances.
 
 [ttycolor]: https://github.com/freeformsystems/ttycolor

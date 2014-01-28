@@ -1,0 +1,14 @@
+#!/usr/bin/env node
+
+/**
+ *  Example of defining and raising errors.
+ */
+var basename = require('path').basename;
+require('ttycolor')().defaults();
+var clierr = require('..')({name: basename(process.argv[1])})
+var Error = clierr.error;
+var err = new Error('fatal: %s not found', 128, ['file.json']);
+// print formatted message to stderr
+err.error();
+// use the error exit status code
+err.exit();
