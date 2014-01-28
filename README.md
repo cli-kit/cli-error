@@ -29,6 +29,13 @@ This module is a set of helper functions and an error class designed to help cre
 npm install cli-error
 ```
 
+## Developers
+
+```
+git clone https://github.com/freeformsystems/cli-error.git
+cd cli-error && npm install && npm test
+```
+
 ## Test
 
 ```
@@ -37,7 +44,7 @@ npm test
 
 ## Examples
 
-The [bin](https://github.com/freeformsystems/cli-error/tree/master/bin) directory contains example programs.
+The [bin](https://github.com/freeformsystems/cli-error/tree/master/bin) directory contains example programs. Note these are not distributed with the package.
 
 ## Usage
 
