@@ -93,7 +93,7 @@ function define(key, message, parameters, code) {
     code = parameters;
     parameters = null;
   }
-  if(!code) code = Object.keys(errors).length + 1;
+  if(!code) code = Object.keys(errors).length + 128;
   var err = new CliError(message, code, parameters);
   errors[key] = err;
   return err;
