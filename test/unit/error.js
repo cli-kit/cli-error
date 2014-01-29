@@ -4,12 +4,19 @@ var clierr = require('../..'),
   define = clierr.define,
   definition = clierr.definition,
   error = clierr.error,
-  errors = clierr.errors,
   config = clierr.config;
 
 describe('cli-error:', function() {
-  it('should convert to error', function(done) {
+  beforeEach(function(done) {
     clierr.clear();
+    done();
+  });
+  afterEach(function(done) {
+    clierr.clear();
+    done();
+  });
+  it('should convert to error', function(done) {
+    var errors = clierr.errors;
     var key = 'EINVALID_OPTION';
     var message = 'invalid option %s';
     var parameters = ['-x'];

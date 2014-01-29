@@ -2,11 +2,19 @@ var expect = require('chai').expect;
 var clierr = require('../..'),
   define = clierr.define,
   definition = clierr.definition,
-  errors = clierr.errors,
   config = clierr.config;
 
 describe('cli-error:', function() {
+  beforeEach(function(done) {
+    clierr.clear();
+    done();
+  });
+  afterEach(function(done) {
+    clierr.clear();
+    done();
+  });
   it('should define errors', function(done) {
+    var errors = clierr.errors;
     var key = 'EARGLENGTH';
     var message = 'too few arguments';
     var def = define(key, message);

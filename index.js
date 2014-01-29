@@ -12,13 +12,9 @@ var config = {
   lc: ['LC_ALL', 'LC_MESSAGES']
 }
 
+var errors = {};
 var ErrorDefinition = require('./lib/definition');
 var CliError = require('./lib/error')(config).Error;
-var file = require('./lib/file')(config).file;
-var define = require('./lib/define')(config).define;
-var load = require('./lib/load');
-var errors = require('./lib/define').errors;
-var clear = require('./lib/define').clear;
 var lc = require('cli-locale');
 
 /**
@@ -39,6 +35,8 @@ function raise(err) {
       e.error.apply(e, parameters);
       e.exit();
     });
+  }else{
+    e.message = e.format.apply(e, parameters);
   }
   throw e;
 }
@@ -81,6 +79,57 @@ function exit(err, trace) {
   e.error.apply(e, parameters);
   e.exit();
 }
+
+/**
+ *  Import definitions from an object.
+ *
+ *  @param source An array defining error messages.
+ */
+function load(source) {
+  var i, v, d;
+  for(i = 0;i < source.length;i++) {
+    v = source[i];
+    d = define(v.key, v.message, v.parameters, v.code);
+    if(v.description) d.description = v.description;
+  }
+}
+
+/**
+ *  Clear all defined errors.
+ */
+function clear() {
+  module.exports.errors = errors = {};
+  return errors;
+}
+
+/**
+ *  Define an error for the program.
+ *
+ *  If the exit status code is not specified it is auto
+ *  incremented based on the previously defined errors.
+ *
+ *  @param key The error key.
+ *  @param message The error message.
+ *  @param parameters Array of message replacement parameters (optional).
+ *  @param code Exit status code (optional).
+ */
+function define(key, message, parameters, code) {
+  if(typeof parameters == 'number') {
+    code = parameters;
+    parameters = null;
+  }
+  var start = typeof config.start == 'number' ? config.start : 128;
+  if(!code && errors[key] && errors[key].code) {
+    code = errors[key].code;
+  }
+  if(!code) code = Object.keys(errors).length + start;
+  // re-use error code if overwriting
+  var err = new ErrorDefinition(key, message, code, parameters);
+  errors[key] = err;
+  return err;
+}
+
+var file = require('./lib/file')(config, errors, load).file;
 
 module.exports = function configure(conf) {
   for(var z in conf) {
