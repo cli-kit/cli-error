@@ -15,9 +15,22 @@ describe('cli-error:', function() {
     var key = 'EINVALID_OPTION';
     var message = 'invalid option %s';
     var parameters = ['-x'];
-    var def = define(key, message, parameters);
+    define(key, message, parameters);
     function fn() {
       raise(errors.EINVALID_OPTION);
+    }
+    expect(fn).throw(error);
+    expect(fn).throw('invalid option -x');
+    done();
+  });
+  it('should throw error with runtime parameters', function(done) {
+    var errors = clierr.errors;
+    var key = 'EINVALID_OPTION';
+    var message = 'invalid option %s';
+    var opt = '-x';
+    define(key, message);
+    function fn() {
+      raise(errors.EINVALID_OPTION, opt);
     }
     expect(fn).throw(error);
     expect(fn).throw('invalid option -x');
