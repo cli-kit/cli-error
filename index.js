@@ -18,6 +18,7 @@ var file = require('./lib/file')(config).file;
 var define = require('./lib/define')(config).define;
 var load = require('./lib/load');
 var errors = require('./lib/define').errors;
+var clear = require('./lib/define').clear;
 var lc = require('cli-locale');
 
 /**
@@ -89,6 +90,7 @@ module.exports = function configure(conf) {
   return module.exports;
 }
 
+module.exports.clear = clear;
 module.exports.config = config;
 module.exports.define = define;
 module.exports.definition = ErrorDefinition;

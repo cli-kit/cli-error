@@ -109,6 +109,10 @@ var clierr = require('..')({name: 'program'});
 
 ### Module
 
+#### clear()
+
+Clear all error definitions.
+
 #### config
 
 Map of configuration information.
