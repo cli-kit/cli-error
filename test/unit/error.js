@@ -1,4 +1,5 @@
 var expect = require('chai').expect;
+var basename = require('path').basename;
 var clierr = require('../..'),
   define = clierr.define,
   definition = clierr.definition,
@@ -16,6 +17,7 @@ describe('cli-error:', function() {
     var err = def.toError();
     expect(err).to.be.an.instanceof(error);
     expect(err).to.be.an.instanceof(Error);
+    expect(err.name).to.be.a('string').that.equals(basename(process.argv[1]));
     expect(err.key).to.be.a('string').that.equals(key);
     expect(err.message).to.be.a('string').that.equals(message);
     expect(err.code).to.be.a('number').that.equals(config.start);
