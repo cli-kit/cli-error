@@ -15,9 +15,12 @@ describe('cli-error:', function() {
     var def = define(key, message);
     var err = def.toError();
     expect(err).to.be.an.instanceof(error);
+    expect(err).to.be.an.instanceof(Error);
     expect(err.key).to.be.a('string').that.equals(key);
     expect(err.message).to.be.a('string').that.equals(message);
     expect(err.code).to.be.a('number').that.equals(config.start);
+    expect(err.stack).to.be.a('string');
+    expect(err.stacktrace).to.be.an('array');
     done();
   });
 })
