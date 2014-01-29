@@ -86,9 +86,11 @@ function exit(err, trace) {
  *  @param source An array defining error messages.
  */
 function load(source) {
+  assert(Array.isArray(source), 'argument to load must be an array');
   var i, v, d;
   for(i = 0;i < source.length;i++) {
     v = source[i];
+    assert(typeof v.key == 'string', 'error definition must have string key')
     d = define(v.key, v.message, v.parameters, v.code);
     if(v.description) d.description = v.description;
   }
