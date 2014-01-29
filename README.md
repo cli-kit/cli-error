@@ -172,7 +172,7 @@ The callback signature is `function(err, file, errors, lang)`.
 
 #### load(source)
 
-Load error definitions from a `source` object.
+Load error definitions from a `source` array.
 
 #### raise(err, ...)
 
@@ -192,6 +192,66 @@ Print a warn message from an error definition.
 ### CliError
 
 An `Error` subclass.
+
+#### code
+
+The exit status code.
+
+#### exit()
+
+Exit the program with the exit status code associated with the error instance.
+
+#### error(trace, ...)
+
+Print an error message to `stderr` optionally including a stack trace.
+
+* `trace`: Whether to print the stack trace.
+* `...`: Message replacement parameters.
+
+#### key
+
+The identifier for the error, only available when created from an error definition.
+
+#### message
+
+The error message.
+
+#### name
+
+The name for the instance, this will be the name of the program being executed unless configured with a different name.
+
+#### parameters
+
+Array of message parameters set when the error was defined.
+
+#### stack
+
+String representation of the stack trace when the error was instantiated.
+
+#### stacktrace
+
+Array of stack trace lines with leading and trailing whitespace removed.
+
+#### stringify(trace, ...)
+
+Get a `JSON` string representation of this error instance.
+
+* `trace`: Whether to print the stack trace.
+* `...`: Message replacement parameters.
+
+#### toObject(trace, ...)
+
+Get an object suitable for passing to `JSON.stringify`.
+
+* `trace`: Whether to print the stack trace.
+* `...`: Message replacement parameters.
+
+#### warn(trace, ...)
+
+Print a warn message to `stderr` optionally including a stack trace.
+
+* `trace`: Whether to print the stack trace.
+* `...`: Message replacement parameters.
 
 ### ErrorDefinition
 
