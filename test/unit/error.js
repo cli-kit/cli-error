@@ -13,7 +13,7 @@ describe('cli-error:', function() {
     var key = 'EINVALID_OPTION';
     var message = 'invalid option %s';
     var parameters = ['-x'];
-    var def = define(key, message);
+    var def = define(key, message, parameters);
     var err = def.toError();
     expect(err).to.be.an.instanceof(error);
     expect(err).to.be.an.instanceof(Error);
@@ -23,6 +23,8 @@ describe('cli-error:', function() {
     expect(err.code).to.be.a('number').that.equals(config.start);
     expect(err.stack).to.be.a('string');
     expect(err.stacktrace).to.be.an('array');
+    expect(err.parameters).to.be.an('array');
+    expect(err.parameters.length).to.be.a('number').that.equals(1);
     done();
   });
 })

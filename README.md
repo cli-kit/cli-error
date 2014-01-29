@@ -98,7 +98,7 @@ var clierr = require('..')({name: 'program'});
 * `start`: A number indicating the start when auto-incrementing exit status
   codes, default `128`.
 * `prefix`: A prefix for messages used when printing errors using the `console`
-  methods. Maybe a boolean `true` to use `name` as the prefix (like standard
+  methods. May be a boolean `true` to use `name` as the prefix (like standard
   error messages), a `string` or a `function` that returns a prefix.
 * `en`: Final fallback language identifer used when loading language files.
 * `locales`: Directory containing the locale specific error definition files,
@@ -197,16 +197,16 @@ An `Error` subclass.
 
 The exit status code.
 
-#### exit()
-
-Exit the program with the exit status code associated with the error instance.
-
 #### error(trace, ...)
 
 Print an error message to `stderr` optionally including a stack trace.
 
 * `trace`: Whether to print the stack trace.
 * `...`: Message replacement parameters.
+
+#### exit()
+
+Exit the program with the exit status code associated with the error instance.
 
 #### key
 
