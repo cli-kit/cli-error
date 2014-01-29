@@ -109,6 +109,10 @@ var clierr = require('..')({name: 'program'});
 
 ### Module
 
+#### config
+
+Map of configuration information.
+
 #### define(key, message, [parameters], [code])
 
 Define an error by named key.

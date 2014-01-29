@@ -89,6 +89,7 @@ module.exports = function configure(conf) {
   return module.exports;
 }
 
+module.exports.config = config;
 module.exports.define = define;
 module.exports.definition = ErrorDefinition;
 module.exports.error = CliError;
