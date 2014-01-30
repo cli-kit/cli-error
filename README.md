@@ -44,7 +44,7 @@ npm test
 
 ## Examples
 
-The [bin](https://github.com/freeformsystems/cli-error/tree/master/bin) directory contains example programs. Note these are not distributed with the package.
+The [bin](https://github.com/freeformsystems/cli-error/tree/master/bin) directory contains example programs.
 
 ## Usage
 
