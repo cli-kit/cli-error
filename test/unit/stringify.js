@@ -34,4 +34,18 @@ describe('cli-error:', function() {
     expect(s).to.be.a('string').that.equals(stringified);
     done();
   });
+  it('should convert to object (definition parameters)', function(done) {
+    clierr.clear();
+    var key = 'EINVALID_OPTION';
+    var message = 'invalid option %s';
+    var opt = '-x';
+    var expected = util.format(message, opt);
+    var def = define(key, message, [opt]);
+    var err = def.toError();
+    expect(err.parameters).to.eql([opt]);
+    // without stacktrace
+    var o = err.toObject(false);
+    expect(o.message).to.eql(expected);
+    done();
+  });
 })
