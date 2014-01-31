@@ -15,6 +15,7 @@ describe('cli-error:', function() {
     expect(clierr.load).to.be.a('function');
     expect(clierr.raise).to.be.a('function');
     expect(clierr.warn).to.be.a('function');
+    expect(clierr.close).to.be.a('function');
     done();
   });
 })

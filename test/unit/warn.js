@@ -10,6 +10,7 @@ describe('cli-error:', function() {
   });
   afterEach(function(done) {
     clierr.clear();
+    clierr.close();
     done();
   });
   it('should throw assertion error on warn()', function(done) {

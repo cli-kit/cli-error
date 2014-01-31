@@ -97,6 +97,7 @@ var clierr = require('..')({name: 'program'});
   `basename(process.argv[1])`.
 * `start`: A number indicating the start when auto-incrementing exit status
   codes, default `128`.
+* `log`: String path to a log file or a `WritableStream`.
 * `prefix`: A prefix for messages used when printing errors using the `console`
   methods. May be a boolean `true` to use `name` as the prefix (like standard
   error messages), a `string` or a `function` that returns a prefix.
@@ -112,6 +113,10 @@ var clierr = require('..')({name: 'program'});
 #### clear()
 
 Clear all error definitions.
+
+#### close()
+
+Closes an existing log file stream.
 
 #### config
 

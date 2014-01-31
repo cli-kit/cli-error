@@ -3,6 +3,7 @@ var fs = require('fs');
 var path = require('path'),
   basename = path.basename,
   dirname = path.dirname;
+var Writable = require('stream').Writable;
 var util = require('util');
 var config = {
   name: basename(process.argv[1]),
@@ -136,13 +137,27 @@ function define(key, message, parameters, code) {
 
 var file = require('./lib/file')(config, errors, load).file;
 
+/**
+ *  Close a log file stream.
+ */
+function close() {
+  if(cache.error) console.error = cache.error;
+  if(cache.warn) console.warn = cache.warn;
+  if(stream instanceof Writable && !(config.log instanceof Writable)) {
+    stream.end();
+    stream = null;
+  }
+  cache = {};
+}
+
 module.exports = function configure(conf) {
   for(var z in conf) {
     config[z] = conf[z];
   }
   lc.language = config.lang;
   if(config.log) {
-    stream = fs.createWriteStream(config.log, {flags: 'a'});
+    stream = (config.log instanceof Writable)
+      ? config.log : fs.createWriteStream(config.log, {flags: 'a'});
     cache.error = console.error;
     cache.warn = console.warn;
     console.error = function(format) {
@@ -169,3 +184,4 @@ module.exports.file = file;
 module.exports.load = load;
 module.exports.raise = raise;
 module.exports.warn = warn;
+module.exports.close = close;
