@@ -162,6 +162,7 @@ function open(log, flags) {
       stream.write(msg);
     }
   }
+  return stream;
 }
 
 /**
