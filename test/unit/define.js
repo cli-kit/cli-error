@@ -32,6 +32,8 @@ describe('cli-error:', function() {
     var key = 'EARGLENGTH';
     var message = 'too few arguments';
     var def = define(key, message, 256);
+    expect(def.key).to.be.a('string').that.equals(key);
+    expect(def.message).to.be.a('string').that.equals(message);
     expect(def.code).to.be.a('number').that.equals(256);
     done();
   });
@@ -41,6 +43,8 @@ describe('cli-error:', function() {
     var message = 'too few arguments, got %s';
     var params = ['-xvf'];
     var def = define(key, message, params, 256);
+    expect(def.key).to.be.a('string').that.equals(key);
+    expect(def.message).to.be.a('string').that.equals(message);
     expect(def.parameters).to.eql(params);
     expect(def.code).to.be.a('number').that.equals(256);
     done();
