@@ -161,13 +161,13 @@ module.exports = function configure(conf) {
     cache.error = console.error;
     cache.warn = console.warn;
     console.error = function(format) {
-      var msg = util.format.apply(util, arguments);
-      stream.write(msg, function(){});
+      var msg = util.format.apply(util, arguments) + '\n';
+      stream.write(msg);
 
     }
     console.warn = function(format) {
-      var msg = util.format.apply(util, arguments);
-      stream.write(msg, function(){});
+      var msg = util.format.apply(util, arguments) + '\n';
+      stream.write(msg);
     }
   }
   return module.exports;
