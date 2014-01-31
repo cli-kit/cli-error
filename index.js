@@ -110,7 +110,12 @@ function load(source) {
  *  Clear all defined errors.
  */
 function clear() {
-  module.exports.errors = errors = {};
+  // NOTE: we clear this way so that modules
+  // NOTE: that reference the errors do not
+  // NOTE: have their references broken after clear()
+  for(var z in errors) {
+    delete errors[z];
+  }
   return errors;
 }
 
