@@ -20,6 +20,10 @@ describe('cli-error:', function() {
     done();
   });
   it('should print message on warn()', function(done) {
+    var config = {
+      log: 'log/warn.log'
+    }
+    clierr(config);
     var key = 'EARGLENGTH';
     var message = 'too few arguments';
     var def = define(key, message);

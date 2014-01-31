@@ -1,17 +1,20 @@
 var assert = require('assert');
+var fs = require('fs');
 var path = require('path'),
   basename = path.basename,
   dirname = path.dirname;
+var util = require('util');
 var config = {
   name: basename(process.argv[1]),
   start: 128,
   prefix: true,
   lang: 'en',
   pad: '  ',
+  log: null,
   locales: path.join(path.normalize(dirname(process.argv[1])), 'locales'),
   lc: ['LC_ALL', 'LC_MESSAGES']
 }
-
+var cache = {}, stream;
 var errors = {};
 var ErrorDefinition = require('./lib/definition');
 var CliError = require('./lib/error')(config).Error;
@@ -138,6 +141,20 @@ module.exports = function configure(conf) {
     config[z] = conf[z];
   }
   lc.language = config.lang;
+  if(config.log) {
+    stream = fs.createWriteStream(config.log, {flags: 'a'});
+    cache.error = console.error;
+    cache.warn = console.warn;
+    console.error = function(format) {
+      var msg = util.format.apply(util, arguments);
+      stream.write(msg, function(){});
+
+    }
+    console.warn = function(format) {
+      var msg = util.format.apply(util, arguments);
+      stream.write(msg, function(){});
+    }
+  }
   return module.exports;
 }
 
