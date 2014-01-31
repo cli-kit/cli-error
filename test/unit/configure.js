@@ -22,6 +22,7 @@ describe('cli-error:', function() {
     expect(clierr.config.start).to.eql(config.start);
     expect(clierr.config.lang).to.eql(config.lang);
     expect(require('cli-locale').language).to.eql(config.lang);
+    clierr({start: 128, lang: 'en'});
     done();
   });
 })

@@ -82,7 +82,7 @@ function exit(err, trace) {
   var parameters = [].slice.call(arguments, 2);
   parameters.unshift(trace);
   e.error.apply(e, parameters);
-  e.exit();
+  return e.exit();
 }
 
 /**
@@ -129,7 +129,7 @@ function define(key, message, parameters, code) {
   if(!code && errors[key] && errors[key].code) {
     code = errors[key].code;
   }
-  if(!code) code = Object.keys(errors).length + start;
+  if(code === undefined) code = Object.keys(errors).length + start;
   // re-use error code if overwriting
   var err = new ErrorDefinition(key, message, code, parameters);
   errors[key] = err;
@@ -145,7 +145,6 @@ var file = require('./lib/file')(config, errors, load).file;
 function open(log, flags) {
   log = log || config.log;
   flags = flags || config.flags || 'a';
-  //console.dir(flags);
   if(log) {
     stream = (log instanceof Writable)
       ? log

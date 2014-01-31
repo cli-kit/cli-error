@@ -10,7 +10,6 @@ describe('cli-error:', function() {
   });
   afterEach(function(done) {
     clierr.clear();
-    clierr.close();
     clierr.config.log = null;
     done();
   });
@@ -22,6 +21,7 @@ describe('cli-error:', function() {
     var e = def.toError();
     e.warn();
     e.error();
+    clierr.close();
     // TODO: assert on file contents
     done();
   });
@@ -33,6 +33,7 @@ describe('cli-error:', function() {
     var e = def.toError();
     e.warn();
     e.error();
+    clierr.close();
     // TODO: assert on file contents
     done();
   });

@@ -30,6 +30,7 @@
     "async": "~0.2.10"
   },
   "scripts": {
-    "test": "istanbul cover _mocha -- -u bdd --recursive --reporter list -A test/unit/"
+    "unit": "istanbul cover _mocha -- -u bdd --recursive --reporter list -A test/unit/",
+    "test": "npm run unit"
   }
 }
