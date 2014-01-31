@@ -1,7 +1,7 @@
 var expect = require('chai').expect;
 var clierr = require('../..'),
   load = clierr.load,
-  definition = clierr.definition,
+  definition = clierr.ErrorDefinition,
   errors = clierr.errors,
   config = clierr.config;
 

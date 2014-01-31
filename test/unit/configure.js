@@ -13,7 +13,7 @@ describe('cli-error:', function() {
     clierr.clear();
     done();
   });
-  it('should load errors', function(done) {
+  it('should configure module', function(done) {
     var config = {
       start: 256,
       lang: 'en_us'

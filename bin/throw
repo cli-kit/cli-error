@@ -5,7 +5,7 @@
  *  manually handling the exit status code.
  */
 require('ttycolor')().defaults();
-var clierr = require('..'), Error = clierr.error;
+var clierr = require('..'), Error = clierr.CliError;
 var e = new Error('an error message', 128);
 process.on('uncaughtException', function(e) {
   console.error(e.stack);

@@ -1,9 +1,10 @@
+var AssertionError = require('assert').AssertionError;
 var expect = require('chai').expect;
 var basename = require('path').basename;
 var clierr = require('../..'),
   define = clierr.define,
-  definition = clierr.definition,
-  error = clierr.error,
+  definition = clierr.ErrorDefinition,
+  error = clierr.CliError,
   config = clierr.config;
 
 describe('cli-error:', function() {

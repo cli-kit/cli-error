@@ -25,7 +25,7 @@
   "devDependencies": {
     "ttycolor": "~0.7.5",
     "mocha": "~1.17.0",
-    "chai": "~1.8.1",
+    "chai": "git+ssh://git@github.com:freeformsystems/chai.git",
     "istanbul": "~0.2.4",
     "async": "~0.2.10"
   },

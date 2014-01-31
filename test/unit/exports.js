@@ -6,8 +6,9 @@ describe('cli-error:', function() {
     expect(clierr).to.be.a('function');
     expect(clierr.config).to.be.an('object');
     expect(clierr.define).to.be.a('function');
-    expect(clierr.definition).to.be.a('function');
-    expect(clierr.error).to.be.a('function');
+    expect(clierr.ErrorDefinition).to.be.a('function');
+    expect(clierr.CliError).to.be.a('function');
+    //expect(clierr.error).to.be.a('function');
     expect(clierr.errors).to.be.a('object');
     expect(clierr.exit).to.be.a('function');
     expect(clierr.file).to.be.a('function');

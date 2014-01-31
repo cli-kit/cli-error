@@ -49,7 +49,7 @@ function raise(err) {
  *  @param ... Message replacement parameters.
  */
 function warn(err, trace) {
-  assert(err instanceof ErrorDefinition,
+  assert((err instanceof ErrorDefinition),
     'argument to warn must be error definition');
   var e = err.toError();
   // remove this method from the stack trace
@@ -144,8 +144,8 @@ module.exports = function configure(conf) {
 module.exports.clear = clear;
 module.exports.config = config;
 module.exports.define = define;
-module.exports.definition = ErrorDefinition;
-module.exports.error = CliError;
+module.exports.ErrorDefinition = ErrorDefinition;
+module.exports.CliError = CliError;
 module.exports.errors = errors;
 module.exports.exit = exit;
 module.exports.file = file;

@@ -1,7 +1,7 @@
 var expect = require('chai').expect;
 var clierr = require('../..'),
   define = clierr.define,
-  definition = clierr.definition,
+  definition = clierr.ErrorDefinition,
   config = clierr.config;
 
 describe('cli-error:', function() {

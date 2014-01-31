@@ -117,6 +117,10 @@ Clear all error definitions.
 
 Map of configuration information.
 
+#### CliError
+
+Reference to the `CliError` class.
+
 #### define(key, message, [parameters], [code])
 
 Define an error by named key.
@@ -128,13 +132,9 @@ Define an error by named key.
 
 Returns an `ErrorDefinition` instance.
 
-#### definition
+#### ErrorDefinition
 
 Reference to the `ErrorDefinition` class.
-
-#### error
-
-Reference to the `CliError` class.
 
 #### errors
 
