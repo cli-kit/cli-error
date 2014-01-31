@@ -35,9 +35,14 @@ function raise(err) {
   var e = err.toError();
   var listeners = process.listeners('uncaughtException');
   if(!listeners.length) {
-    process.on('uncaughtException', function(e) {
+    //console.dir('adding uncaught listener...');
+    process.once('uncaughtException', function(err) {
       parameters.unshift(false);
+      e.source = err;
       e.error.apply(e, parameters);
+      // NOTE: this is only really required to mock
+      // NOTE: this method invocation in test, see test/unit/exit.js
+      process.emit('raisedException', e);
       e.exit();
     });
   }else{
@@ -154,7 +159,6 @@ function open(log, flags) {
     console.error = function() {
       var msg = util.format.apply(util, arguments) + '\n';
       stream.write(msg);
-
     }
     console.warn = function() {
       var msg = util.format.apply(util, arguments) + '\n';
