@@ -27,4 +27,22 @@ describe('cli-error:', function() {
     expect(def.code).to.be.a('number').that.equals(config.start);
     done();
   });
+  it('should define error with specific code (no parameters)', function(done) {
+    var errors = clierr.errors;
+    var key = 'EARGLENGTH';
+    var message = 'too few arguments';
+    var def = define(key, message, 256);
+    expect(def.code).to.be.a('number').that.equals(256);
+    done();
+  });
+  it('should define error with parameters and code', function(done) {
+    var errors = clierr.errors;
+    var key = 'EARGLENGTH';
+    var message = 'too few arguments, got %s';
+    var params = ['-xvf'];
+    var def = define(key, message, params, 256);
+    expect(def.parameters).to.eql(params);
+    expect(def.code).to.be.a('number').that.equals(256);
+    done();
+  });
 })
