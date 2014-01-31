@@ -12,6 +12,7 @@ var config = {
   lang: 'en',
   pad: '  ',
   log: null,
+  flags: null,
   locales: path.join(path.normalize(dirname(process.argv[1])), 'locales'),
   lc: ['LC_ALL', 'LC_MESSAGES']
 }
@@ -138,6 +139,34 @@ function define(key, message, parameters, code) {
 var file = require('./lib/file')(config, errors, load).file;
 
 /**
+ *  Open a log file write stream and overwrite the error
+ *  and warn console methods to write to the log file.
+ */
+function open(log, flags) {
+  log = log || config.log;
+  flags = flags || config.flags || 'a';
+  //console.dir(flags);
+  if(log) {
+    stream = (log instanceof Writable)
+      ? log
+      : fs.createWriteStream(log, {flags: flags});
+    cache.error = console.error;
+    cache.warn = console.warn;
+    console.error = function() {
+      var msg = util.format.apply(util, arguments) + '\n';
+      console.dir(msg);
+      stream.write(msg);
+
+    }
+    console.warn = function() {
+      var msg = util.format.apply(util, arguments) + '\n';
+      console.dir(msg);
+      stream.write(msg);
+    }
+  }
+}
+
+/**
  *  Close a log file stream.
  */
 function close() {
@@ -156,19 +185,7 @@ module.exports = function configure(conf) {
   }
   lc.language = config.lang;
   if(config.log) {
-    stream = (config.log instanceof Writable)
-      ? config.log : fs.createWriteStream(config.log, {flags: 'a'});
-    cache.error = console.error;
-    cache.warn = console.warn;
-    console.error = function(format) {
-      var msg = util.format.apply(util, arguments) + '\n';
-      stream.write(msg);
-
-    }
-    console.warn = function(format) {
-      var msg = util.format.apply(util, arguments) + '\n';
-      stream.write(msg);
-    }
+    open();
   }
   return module.exports;
 }
@@ -184,4 +201,5 @@ module.exports.file = file;
 module.exports.load = load;
 module.exports.raise = raise;
 module.exports.warn = warn;
+module.exports.open = open;
 module.exports.close = close;

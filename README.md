@@ -98,6 +98,7 @@ var clierr = require('..')({name: 'program'});
 * `start`: A number indicating the start when auto-incrementing exit status
   codes, default `128`.
 * `log`: String path to a log file or a `WritableStream`.
+* `flags`: Flags to use when creating the log file stream (default is `a`), only applies when the log property is a string.
 * `prefix`: A prefix for messages used when printing errors using the `console`
   methods. May be a boolean `true` to use `name` as the prefix (like standard
   error messages), a `string` or a `function` that returns a prefix.
@@ -116,7 +117,7 @@ Clear all error definitions.
 
 #### close()
 
-Closes an existing log file stream.
+Closes an existing log file stream and restore the `console.error` and `console.warn` functions.
 
 #### config
 
