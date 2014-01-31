@@ -154,13 +154,11 @@ function open(log, flags) {
     cache.warn = console.warn;
     console.error = function() {
       var msg = util.format.apply(util, arguments) + '\n';
-      console.dir(msg);
       stream.write(msg);
 
     }
     console.warn = function() {
       var msg = util.format.apply(util, arguments) + '\n';
-      console.dir(msg);
       stream.write(msg);
     }
   }
