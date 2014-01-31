@@ -42,7 +42,7 @@ describe('cli-error:', function() {
     var def = define(key, message);
     var listeners = process.listeners('uncaughtException').slice(0);
     process.removeAllListeners('uncaughtException');
-    process.once('raisedException', function(e) {
+    process.once('exception', function(e) {
       for(var i = 0;i < listeners.length;i++) {
         process.on('uncaughtException', listeners[i]);
       }

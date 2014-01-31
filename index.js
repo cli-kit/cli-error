@@ -42,7 +42,7 @@ function raise(err) {
       e.error.apply(e, parameters);
       // NOTE: this is only really required to mock
       // NOTE: this method invocation in test, see test/unit/exit.js
-      process.emit('raisedException', e);
+      process.emit('exception', e);
       e.exit();
     });
   }else{
