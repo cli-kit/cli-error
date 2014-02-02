@@ -32,7 +32,7 @@ describe('cli-error:', function() {
       done();
     });
   });
-  it('should callback with error on missing locales', function(done) {
+  it('should callback on missing locales', function(done) {
     var locales = path.normalize(
       path.join(__dirname, '..', '..', 'non-existent', 'locales'));
     clierr({locales: locales});
@@ -48,7 +48,8 @@ describe('cli-error:', function() {
     clierr({locales: locales});
     //console.dir(locales);
     clierr.file({lang: 'de'}, function(err, file, errors, lang) {
-      expect(err).to.be.instanceof(Error);
+      //expect(err).to.be.instanceof(Error);
+      expect(err).to.be.null;
       done();
     });
   });
