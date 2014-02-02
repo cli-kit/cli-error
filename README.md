@@ -115,6 +115,13 @@ var clierr = require('..')({name: 'program'});
 
 Clear all error definitions.
 
+#### open([file, flags])
+
+Opens a log file (or stream) and redirects the `console` methods to write to the log file.
+
+* `file`: The file path or stream, default is `config.log`.
+* `flags`: The file flags when opening the file, default is `a`.
+
 #### close()
 
 Closes an existing log file stream and restore the `console.error` and `console.warn` functions.
