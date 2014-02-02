@@ -13,4 +13,4 @@ define('EARGLENGTH', 'too few arguments');
 if(process.argv.length < 3) {
   raise(errors.EARGLENGTH);
 }
-console.info('arg: %s', process.argv[2]);
+console.info('arg: %s', process.argv.slice(2).join(' '));

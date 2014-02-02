@@ -206,6 +206,13 @@ Print a warn message from an error definition.
 
 An `Error` subclass.
 
+#### new CliError(message|error, [code], [parameters], [name])
+
+* `message|error`: A string message or another `Error` to wrap.
+* `code`: The exit status code.
+* `parameters`: Message replacement parameters.
+* `name`: A specific name for the error.
+
 #### code
 
 The exit status code.
@@ -221,9 +228,17 @@ Print an error message to `stderr` optionally including a stack trace.
 
 Exit the program with the exit status code associated with the error instance.
 
+#### format([...])
+
+Retrive a formatted message using the arguments passed to `format()` with the message assigned to the error.
+
 #### key
 
 The identifier for the error, only available when created from an error definition.
+
+#### info
+
+Array of raw stack trace information, see the [v8 stack trace api][v8stackapi] for more information.
 
 #### message
 
@@ -236,6 +251,27 @@ The name for the instance, this will be the name of the program being executed u
 #### parameters
 
 Array of message parameters set when the error was defined.
+
+#### pop()
+
+Remove the last element in the stack trace and update the underlying data.
+
+####shift()
+
+Remove the first element in the stack trace and update the underlying data.
+
+#### source
+
+A source `Error` instance if the error wraps another error.
+
+####splice(index, amount)
+
+Remove elements from the stack trace and update the underlying data.
+
+* `index`: The start index.
+* `amount`: The number of items to delete.
+
+Note unlink `Array.splice()` this method does not allow inserting elements.
 
 #### stack
 
@@ -270,6 +306,13 @@ Print a warn message to `stderr` optionally including a stack trace.
 
 An error definfition is used to reference an error by identifier (key).
 
+### new ErrorDefinition(key, message, code, parameters)
+
+* `key`: The identifier for the error definition.
+* `message`: A string message.
+* `code`: The exit status code.
+* `parameters`: Message replacement parameters.
+
 #### code
 
 The exit status code.
@@ -288,10 +331,11 @@ Array of message replacement parameters.
 
 #### toError()
 
-Convert an error definition to an `Error`.
+Convert an error definition to a `CliError` instance.
 
 ## License
 
 Everything is [MIT](http://en.wikipedia.org/wiki/MIT_License). Read the [license](/LICENSE) if you feel inclined.
 
 [ttycolor]: https://github.com/freeformsystems/ttycolor
+[v8stackapi]: http://code.google.com/p/v8/wiki/JavaScriptStackTraceApi

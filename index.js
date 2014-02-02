@@ -19,7 +19,7 @@ var config = {
 var cache = {}, stream;
 var errors = {};
 var ErrorDefinition = require('./lib/definition');
-var CliError = require('./lib/error')(config).Error;
+var CliError = require('./lib/error')(config).CliError;
 var lc = require('cli-locale');
 
 /**
