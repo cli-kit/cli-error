@@ -271,7 +271,7 @@ Remove elements from the stack trace and update the underlying data.
 * `index`: The start index.
 * `amount`: The number of items to delete.
 
-Note unlink `Array.splice()` this method does not allow inserting elements.
+Note unlike `Array.splice()` this method does not allow inserting elements.
 
 #### stack
 
