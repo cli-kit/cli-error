@@ -23,11 +23,14 @@ describe('cli-error:', function() {
     var msg = 'nothing to be done (en_gb)';
     clierr({locales: locales});
     clierr.file(function(err, file, errors, lang) {
+      //console.dir(errors);
       expect(err).to.be.null;
       expect(errors).to.be.an('object')
       expect(file).to.eql(expected);
       expect(errors.ENOOP).to.be.an('object');
       expect(errors.ENOOP.message).to.eql(msg);
+      //var e = errors.ENOOP.toError();
+      //console.dir(e);
       clierr({locales: null});
       done();
     });

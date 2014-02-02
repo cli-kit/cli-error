@@ -8,9 +8,13 @@ var clierr = require('..');
 var Error = clierr.CliError;
 var err = new Error('%s not found', 128, ['file.json']);
 
+//console.log(err.stack);
+
+//throw err;
+
 //var err = new Error();
 //err.error();
 // print formatted message to stderr
-err.error();
+err.error(true);
 // use the error exit status code
 err.exit();
