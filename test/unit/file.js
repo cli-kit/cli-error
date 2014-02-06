@@ -24,7 +24,7 @@ describe('cli-error:', function() {
     clierr({locales: locales});
     clierr.file(function(err, file, errors, lang) {
       //console.dir(errors);
-      expect(err).to.be.null;
+      expect(err).to.eql(null);
       expect(errors).to.be.an('object')
       expect(file).to.eql(expected);
       expect(errors.ENOOP).to.be.an('object');
@@ -34,6 +34,16 @@ describe('cli-error:', function() {
       clierr({locales: null});
       done();
     });
+  });
+  it('should load definitions from a file (no callback)', function(done) {
+    process.env.LC_MESSAGES = 'en_GB.UTF-8';
+    var locales = path.normalize(
+      path.join(__dirname, '..', '..', 'bin', 'locales'));
+    var expected = path.join(locales, 'en_gb.json');
+    var msg = 'nothing to be done (en_gb)';
+    clierr({locales: locales});
+    clierr.file();
+    done();
   });
   it('should callback on missing locales', function(done) {
     var locales = path.normalize(
@@ -52,7 +62,7 @@ describe('cli-error:', function() {
     //console.dir(locales);
     clierr.file({lang: 'de'}, function(err, file, errors, lang) {
       //expect(err).to.be.instanceof(Error);
-      expect(err).to.be.null;
+      expect(err).to.eql(null);
       done();
     });
   });
