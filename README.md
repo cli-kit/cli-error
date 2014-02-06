@@ -329,9 +329,13 @@ The error message.
 
 Array of message replacement parameters.
 
-#### toError()
+#### toError([e], [parameters], [code])
 
 Convert an error definition to a `CliError` instance.
+
+* `e`: A source error.
+* `parameters`: An array of message replacement parameters.
+* `code`: An exit status code.
 
 ## License
 

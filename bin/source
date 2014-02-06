@@ -1,0 +1,17 @@
+#!/usr/bin/env node
+
+/**
+*  Example of wrapping a source error when invoking toError().
+ */
+require('ttycolor')().defaults();
+var clierr = require('..');
+var define = clierr.define;
+var def = define('ENOTFOUND', 'file %s not found', null, 128);
+var ex = new Error('A source error message');
+//console.error(ex.stack);
+var err = def.toError(ex);
+process.on('uncaughtException', function(e) {
+  console.error(e.stack);
+  process.exit(e.code);
+})
+throw err;
