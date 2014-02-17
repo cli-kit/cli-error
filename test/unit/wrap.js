@@ -20,6 +20,7 @@ describe('cli-error:', function() {
     expect(e.key).to.eql(source.key).to.eql(key);
     expect(e.info).to.be.an('array');
     expect(e.stacktrace).to.be.an('array');
+    expect(e.cause()).to.eql(source);
     var len = e.info.length;
     expect(e.info.length).to.eql(e.stacktrace.length);
     e.pop();
