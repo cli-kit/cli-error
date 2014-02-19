@@ -49,4 +49,17 @@ describe('cli-error:', function() {
     expect(def.code).to.be.a('number').that.equals(256);
     done();
   });
+  it('should define with default start (invalid start)', function(done) {
+    var config = {
+      start: false
+    }
+    clierr(config);
+    var key = 'EARGLENGTH';
+    var message = 'too few arguments, got %s';
+    var params = ['-xvf'];
+    var def = define(key, message, params, 256);
+    // reset so other tests do not break
+    clierr({start: 128, lang: 'en'});
+    done();
+  });
 })

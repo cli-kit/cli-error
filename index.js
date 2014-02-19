@@ -5,6 +5,7 @@ var path = require('path'),
   dirname = path.dirname;
 var Writable = require('stream').Writable;
 var util = require('util');
+
 var config = {
   name: basename(process.argv[1]),
   start: 128,
@@ -35,7 +36,6 @@ function raise(err) {
   var e = err.toError();
   var listeners = process.listeners('uncaughtException');
   if(!listeners.length) {
-    //console.dir('adding uncaught listener...');
     process.once('uncaughtException', function(err) {
       parameters.unshift(false);
       e.source = err;
@@ -154,21 +154,22 @@ var file = require('./lib/file')(config, errors, load).file;
  */
 function open(log, flags) {
   log = log || config.log;
+  if(!log || typeof log !== 'string' && typeof log.write !== 'function') {
+    throw new TypeError('Cannot open log file, invalid argument');
+  }
   flags = flags || config.flags || 'a';
-  if(log) {
-    stream = (log instanceof Writable)
-      ? log
-      : fs.createWriteStream(log, {flags: flags});
-    cache.error = console.error;
-    cache.warn = console.warn;
-    console.error = function() {
-      var msg = util.format.apply(util, arguments) + '\n';
-      stream.write(msg);
-    }
-    console.warn = function() {
-      var msg = util.format.apply(util, arguments) + '\n';
-      stream.write(msg);
-    }
+  stream = (typeof log === 'string')
+    ? fs.createWriteStream(log, {flags: flags})
+    : log;
+  cache.error = console.error;
+  cache.warn = console.warn;
+  console.error = function() {
+    var msg = util.format.apply(util, arguments) + '\n';
+    stream.write(msg);
+  }
+  console.warn = function() {
+    var msg = util.format.apply(util, arguments) + '\n';
+    stream.write(msg);
   }
   return stream;
 }
@@ -177,12 +178,13 @@ function open(log, flags) {
  *  Close a log file stream.
  */
 function close() {
-  if(cache.error) console.error = cache.error;
-  if(cache.warn) console.warn = cache.warn;
-  if(stream instanceof Writable && !(config.log instanceof Writable)) {
-    stream.end();
-    stream = null;
+  if(!stream) {
+    throw new Error('Log file stream is not open');
   }
+  console.error = cache.error;
+  console.warn = cache.warn;
+  stream.end();
+  stream = null;
   cache = {};
 }
 
