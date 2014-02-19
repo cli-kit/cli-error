@@ -9,6 +9,39 @@ var clierr = require('../..'),
   config = clierr.config;
 
 describe('cli-error:', function() {
+  it('should create error with default name', function(done) {
+    clierr.clear();
+    var message = 'invalid option';
+    var expected = message;
+    var name = basename(process.argv[1]);
+    clierr({name: null});
+    var err = new clierr.CliError(message);
+    var o = err.toObject(false);
+    expect(o.message).to.be.a('string').that.equals(expected);
+    clierr({name: name});
+    done();
+  });
+  it('should convert to object (without key)', function(done) {
+    clierr.clear();
+    var message = 'invalid option';
+    var expected = message;
+    var err = new clierr.CliError(message);
+    var o = err.toObject(false);
+    expect(o.message).to.be.a('string').that.equals(expected);
+    done();
+  });
+  it('should convert to object (zero parameters)', function(done) {
+    clierr.clear();
+    var key = 'EINVALID_OPTION';
+    var message = 'invalid option';
+    var expected = message;
+    var def = define(key, message);
+    var err = def.toError();
+    var o = err.toObject(false);
+    //var s = err.stringify(false, opt);
+    expect(o.message).to.be.a('string').that.equals(expected);
+    done();
+  });
   it('should convert to object and stringify', function(done) {
     clierr.clear();
     var key = 'EINVALID_OPTION';

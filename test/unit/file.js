@@ -66,4 +66,13 @@ describe('cli-error:', function() {
       done();
     });
   });
+  it('should handle no lang', function(done) {
+    var env = process.env;
+    process.env = {};
+    clierr({lang: null});
+    clierr.file();
+    clierr({lang: 'en'});
+    process.env = env;
+    done();
+  });
 })

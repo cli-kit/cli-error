@@ -55,7 +55,13 @@ describe('cli-error:', function() {
       return 'mock function prefix: ';
     }
     clierr({prefix: prefix});
-    var e = new CliError('mock CliError instance (error+string prefix)');
+    var e = new CliError('mock CliError instance (function prefix)');
+    e.error(true);
+    done();
+  });
+  it('should ignore invalid prefix', function(done) {
+    clierr({prefix: null});
+    var e = new CliError('mock CliError instance (null prefix)');
     e.error(true);
     done();
   });
