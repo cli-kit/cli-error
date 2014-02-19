@@ -35,4 +35,14 @@ describe('cli-error:', function() {
     expect(err.parameters.length).to.be.a('number').that.equals(1);
     done();
   });
+  it('should convert and wrap error', function(done) {
+    var errors = clierr.errors;
+    var key = 'EINVALID_OPTION';
+    var message = 'invalid option %s';
+    var parameters = ['-x'];
+    var def = define(key, message, parameters);
+    var err = def.toError(new Error(message));
+    expect(err.message).to.be.a('string').that.equals(message);
+    done();
+  });
 })
