@@ -140,6 +140,11 @@ function define(key, message, parameters, code) {
     code = errors[key].code;
   }
   if(code === undefined) code = Object.keys(errors).length + start;
+  // NOTE: we have to clamp code to 255 limit as POSIX systems
+  // NOTE: use an unsigned 8-bit integer, if you process.exit(256)
+  // NOTE: in node it will exit with a zero exit code which
+  // NOTE: is completely undesirable
+  if(code > 255) code = 255;
   // re-use error code if overwriting
   var err = new ErrorDefinition(key, message, code, parameters);
   errors[key] = err;
