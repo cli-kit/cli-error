@@ -8,7 +8,7 @@ var util = require('util');
 
 var config = {
   name: basename(process.argv[1]),
-  start: 128,
+  start: 64,
   prefix: true,
   lang: 'en',
   pad: '  ',
