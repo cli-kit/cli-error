@@ -31,10 +31,10 @@ describe('cli-error:', function() {
     var errors = clierr.errors;
     var key = 'EARGLENGTH';
     var message = 'too few arguments';
-    var def = define(key, message, 256);
+    var def = define(key, message, 255);
     expect(def.key).to.be.a('string').that.equals(key);
     expect(def.message).to.be.a('string').that.equals(message);
-    expect(def.code).to.be.a('number').that.equals(256);
+    expect(def.code).to.be.a('number').that.equals(255);
     done();
   });
   it('should define error with parameters and code', function(done) {
@@ -42,11 +42,11 @@ describe('cli-error:', function() {
     var key = 'EARGLENGTH';
     var message = 'too few arguments, got %s';
     var params = ['-xvf'];
-    var def = define(key, message, params, 256);
+    var def = define(key, message, params, 255);
     expect(def.key).to.be.a('string').that.equals(key);
     expect(def.message).to.be.a('string').that.equals(message);
     expect(def.parameters).to.eql(params);
-    expect(def.code).to.be.a('number').that.equals(256);
+    expect(def.code).to.be.a('number').that.equals(255);
     done();
   });
   it('should define with default start (invalid start)', function(done) {
@@ -57,9 +57,18 @@ describe('cli-error:', function() {
     var key = 'EARGLENGTH';
     var message = 'too few arguments, got %s';
     var params = ['-xvf'];
-    var def = define(key, message, params, 256);
+    var def = define(key, message, params, 255);
     // reset so other tests do not break
     clierr({start: 128, lang: 'en'});
+    done();
+  });
+  it('should clamp error code to 255', function(done) {
+    var errors = clierr.errors;
+    var key = 'EARGLENGTH';
+    var message = 'too few arguments, got %s';
+    var params = ['-xvf'];
+    var def = define(key, message, params, 256);
+    expect(def.code).to.be.a('number').that.equals(255);
     done();
   });
 })
