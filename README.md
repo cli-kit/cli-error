@@ -96,7 +96,7 @@ var clierr = require('..')({name: 'program'});
 * `name`: The name for the error instances, default is
   `basename(process.argv[1])`.
 * `start`: A number indicating the start when auto-incrementing exit status
-  codes, default `128`.
+  codes, default `64`.
 * `log`: String path to a log file or a `WritableStream`.
 * `flags`: Flags to use when creating the log file stream (default is `a`), only applies when the log property is a string.
 * `prefix`: A prefix for messages used when printing errors using the `console`
