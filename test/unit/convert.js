@@ -45,4 +45,15 @@ describe('cli-error:', function() {
     expect(err.message).to.be.a('string').that.equals(message);
     done();
   });
+  it('should handle invalid cause', function(done) {
+    var errors = clierr.errors;
+    var key = 'EINVALID_OPTION';
+    var message = 'invalid option %s';
+    var parameters = ['-x'];
+    var def = define(key, message, parameters);
+    var err = def.toError(new Error(message));
+    err.cause(null);
+    expect(err.message).to.be.a('string').that.equals(message);
+    done();
+  });
 })
