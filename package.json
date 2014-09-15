@@ -1,6 +1,6 @@
 {
   "name": "cli-error",
-  "version": "0.5.4",
+  "version": "0.5.5",
   "description": "Unified error handling for command line interfaces",
   "author": "muji <noop@xpm.io>",
   "repository": {
